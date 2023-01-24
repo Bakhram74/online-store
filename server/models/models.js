@@ -11,15 +11,15 @@ const User = sequelize.define('user',{
 const Basket = sequelize.define('basket',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
 })
-const BasketDevise = sequelize.define('basket_devise',{
+const BasketDevice = sequelize.define('basket_device',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
 })
 
-const Devise = sequelize.define('devise',{
+const Device = sequelize.define('device',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     name:{type:DataTypes.STRING,unique:true,allowNull:false},
     price:{type:DataTypes.INTEGER,allowNull:false},
-    rating:{type:DataTypes.INTEGER,allowNull:false},
+    rating:{type:DataTypes.INTEGER,defaultValue:0},
     img:{type:DataTypes.STRING,allowNull:false},
 })
 const Type = sequelize.define('type',{
@@ -34,7 +34,7 @@ const Rating = sequelize.define('rating',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     rate:{type:DataTypes.INTEGER,allowNull:false},
 })
-const DeviseInfo = sequelize.define('devise_info',{
+const DeviceInfo = sequelize.define('device_info',{
     id:{type:DataTypes.INTEGER,primaryKey:true,autoIncrement:true},
     title:{type:DataTypes.STRING,allowNull:false},
     description:{type:DataTypes.STRING,allowNull:false},
@@ -48,23 +48,23 @@ Basket.belongsTo(User)
 User.hasMany(Rating)
 Rating.belongsTo(User)
 
-Basket.hasMany(BasketDevise)
-BasketDevise.belongsTo(Basket)
+Basket.hasMany(BasketDevice)
+BasketDevice.belongsTo(Basket)
 
-Type.hasMany(Devise)
-Devise.belongsTo(Type)
+Type.hasMany(Device)
+Device.belongsTo(Type)
 
-Brand.hasMany(Devise)
-Devise.belongsTo(Brand)
+Brand.hasMany(Device)
+Device.belongsTo(Brand)
 
-Devise.hasMany(Rating)
-Rating.belongsTo(Devise)
+Device.hasMany(Rating)
+Rating.belongsTo(Device)
 
-Devise.hasMany(BasketDevise)
-BasketDevise.belongsTo(Devise)
+Device.hasMany(BasketDevice)
+BasketDevice.belongsTo(Device)
 
-Devise.hasMany(DeviseInfo)
-DeviseInfo.belongsTo(Devise)
+Device.hasMany(DeviceInfo,{as:'info'})
+DeviceInfo.belongsTo(Device)
 
 Type.belongsToMany(Brand,{through:TypeBrand})
 Brand.belongsToMany(Type,{through:TypeBrand})
@@ -72,13 +72,13 @@ Brand.belongsToMany(Type,{through:TypeBrand})
 module.exports = {
     User,
     Basket,
-    BasketDevise,
-    Devise,
+    BasketDevice,
+    Device,
     Type,
     Brand,
     Rating,
     TypeBrand,
-    DeviseInfo
+    DeviceInfo
 }
 
 
